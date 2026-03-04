@@ -1,1 +1,95 @@
+create schema silver;
+go
 
+if object_id('silver.data1','U') is not null
+drop table silver.data1;
+
+create table silver.data1(
+cst_id int,
+cst_key nvarchar(50),
+cst_firstname nvarchar(50),
+cst_lastname nvarchar(50),
+cst_martial_status nvarchar(50),
+cst_gndr nvarchar(50),
+cst_create_date date,
+dwh_create_date datetime2 default getdate()
+
+)
+
+----------------------------------
+
+if object_id('silver.data2','U') is not null
+drop table silver.data2;
+
+create table silver.data2(
+prd_id int,
+cat_id nvarchar(50),
+prd_key nvarchar(50),
+prd_nm nvarchar(50),
+prd_cost nvarchar(50),
+prd_line nvarchar(50),
+prd_start_dt date,
+prd_end_dt date,
+dwh_create_date datetime2 default getdate()
+);  
+
+----------------------------------
+
+if object_id('silver.data3','U') is not null
+drop table silver.data3;
+
+create table silver.data3(
+sls_ord_num nvarchar(50),
+sls_prd_key nvarchar(50),
+sls_cust_id int,
+sls_order_dt date,
+sls_ship_dt date,
+sls_due_dt date,
+sls_sales int,
+sls_quantity int,
+sls_price int,
+dwh_create_date datetime2 default getdate()
+);
+
+-----------------------------------------------------
+
+if object_id('silver.data4','U') is not null
+drop table silver.data4;
+go
+
+create table silver.data4(
+cid nvarchar(50),
+cntry nvarchar(50),
+dwh_create_date datetime2 default getdate()
+
+);
+go
+
+---------------------------------------
+
+if object_id('silver.data5','U') is not null
+drop table silver.data5;
+go
+
+create table silver.data5(
+cid nvarchar(50),
+bdate date,
+gen nvarchar(50),
+dwh_create_date datetime2 default getdate()
+);
+go
+
+---------------------------------------------
+
+if object_id('silver.data6','U') is not null
+drop table silver.data6;
+
+create table silver.data6(
+id nvarchar(50),
+cat nvarchar(50),
+subcat nvarchar(50),
+maintenance nvarchar(50),
+dwh_create_date datetime2 default getdate()
+
+);
+go
