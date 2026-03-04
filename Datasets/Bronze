@@ -1,0 +1,140 @@
+/*
+======================================================================
+Stored Procedure
+======================================================================
+Purpose:
+This Stored Procedure loads data into schema from external csv files.
+It performs operations:
+--Truncates the table before loading data
+--Uses 'bulk insert' command to load huge data of csv files to tables
+*/
+=======================================================================
+
+create schema data;
+
+if object_id('data1','U') is not null
+drop table data1;
+
+create table data1(
+cst_id int,
+cst_key nvarchar(50),
+cst_firstname nvarchar(50),
+cst_lastname nvarchar(50),
+cst_martial_status nvarchar(50),
+cst_gndr nvarchar(50),
+cst_create_date date
+)
+
+----------------------------------
+
+if object_id('data2','U') is not null
+drop table data2;
+
+create table data2(
+prd_id int,
+prd_key nvarchar(50),
+prd_nm nvarchar(50),
+prd_cost nvarchar(50),
+prd_line nvarchar(50),
+prd_start_dt date,
+prd_end_dt date
+);  
+
+----------------------------------
+
+if object_id('data3','U') is not null
+drop table data3;
+
+create table data3(
+sls_ord_num nvarchar(50),
+sls_prd_key nvarchar(50),
+sls_cust_id int,
+sls_order_dt int,
+sls_ship_dt int,
+sls_due_dt int,
+sls_sales int,
+sls_quantity int,
+sls_price int
+);
+
+------------------------------------
+create or alter procedure data.load_data as 
+begin 
+   declare @starttime datetime,@endtime datetime,@batch_start_time DATETIME, @batch_end_time DATETIME;
+  begin try
+     set @batch_start_time=getdate();  
+     print'============';
+     print'loading data';
+	 print'============';
+
+	 print'------------';
+	 print'source data';
+	 print'------------';
+
+set @starttime=getdate();
+print 'truncating table:data1';
+truncate table data1;
+print 'inserting data into table:data1';
+bulk insert data1
+from  'C:\Users\Home\Downloads\cust_info.csv'
+with ( 
+        firstrow=2,
+		fieldterminator=',',
+		tablock
+		);
+set @endtime=getdate();
+print'load_duration:' +cast(datediff(second,@starttime,@endtime) as nvarchar)+'seconds';
+
+-----------------------------------------------------------------------------------------------------
+set @starttime=getdate();
+print 'truncating table:data2';
+truncate table data2;
+print 'inserting data into table:data2';
+bulk insert data2
+from  'C:\Users\Home\Downloads\prd_info.csv'
+with ( 
+        firstrow=2,
+		fieldterminator=',',
+		tablock
+		);
+set @endtime=getdate();
+print'load_duration:' +cast(datediff(second,@starttime,@endtime) as nvarchar)+'seconds';
+
+---------------------------------------------------------------------------------------------------------
+set @starttime=getdate();
+print 'truncating table:data3';
+truncate table data3;
+print 'inserting data into table:data3';
+bulk insert data3
+from  'C:\Users\Home\Downloads\sales_details.csv'
+with ( 
+        firstrow=2,
+		fieldterminator=',',
+		tablock
+		);
+set @endtime=getdate();
+print'load_duration:' +cast(datediff(second,@starttime,@endtime) as nvarchar)+'seconds';
+
+SET @batch_end_time = GETDATE();
+		PRINT '=========================================='
+		PRINT 'Loading data is Completed';
+        PRINT '   - Total Load Duration: ' + CAST(DATEDIFF(SECOND, @batch_start_time, @batch_end_time) AS NVARCHAR) + ' seconds';
+		PRINT '=========================================='
+
+   end try
+  begin catch
+	   print '==================================================';
+	   print 'error occured during loading data'
+	   print 'error message' + error_message();
+	   print 'error message' + cast(error_number() as nvarchar);
+	   print '==================================================';
+   end catch
+end
+
+exec data.load_data;
+
+select * from data1;
+
+select * from data2;
+
+select * from data3;
