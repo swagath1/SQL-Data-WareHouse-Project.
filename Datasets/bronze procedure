@@ -68,6 +68,56 @@ with (
 set @endtime=getdate();
 print'load_duration:' +cast(datediff(second,@starttime,@endtime) as nvarchar)+'seconds';
 
+--------------------------------------------------------------------------------------------------------
+
+set @starttime=getdate();
+print 'truncating table:data4';
+truncate table bronze.data4;
+print 'inserting data into table:data4';
+bulk insert bronze.data4
+from 'C:\Users\Home\Downloads\LOC_A101.csv'
+with(   
+        firstrow=2,
+		fieldterminator=',',
+		tablock
+		);
+set @endtime=getdate();
+print'load_duration:' +cast(datediff(second,@starttime,@endtime) as nvarchar)+'seconds';
+
+------------------------------------------------------------------------------------------------
+
+set @starttime=getdate();
+print 'truncating table:data5';
+truncate table bronze.data5;
+print 'inserting data into table:data5';
+bulk insert bronze.data5
+from 'C:\Users\Home\Downloads\CUST_AZ12.csv'
+with(   
+        firstrow=2,
+		fieldterminator=',',
+		tablock
+		);
+set @endtime=getdate();
+print'load_duration:' +cast(datediff(second,@starttime,@endtime) as nvarchar)+'seconds';
+
+--------------------------------------------------------------------------------------------
+
+set @starttime=getdate();
+print 'truncating table:data6';
+truncate table bronze.data6;
+print 'inserting data into table:data6';
+bulk insert bronze.data6
+from 'C:\Users\Home\Downloads\PX_CAT_G1V2.csv'
+with(   
+        firstrow=2,
+		fieldterminator=',',
+		tablock
+		);
+set @endtime=getdate();
+print'load_duration:' +cast(datediff(second,@starttime,@endtime) as nvarchar)+'seconds';
+
+----------------------------------------------------------------------------------------------
+
 SET @batch_end_time = GETDATE();
 		PRINT '=========================================='
 		PRINT 'Loading data is Completed';
