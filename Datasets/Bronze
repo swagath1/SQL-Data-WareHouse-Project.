@@ -91,3 +91,9 @@ select * from data1;
 select * from data2;
 
 select * from data3;
+
+select * from bronze.data4;
+
+select * from bronze.data5;
+
+select * from bronze.data6;
