@@ -46,6 +46,45 @@ sls_price int
 );
 
 
+-------------------------------------------
+
+
+if object_id('bronze.data4','U') is not null
+drop table bronze.data4;
+go
+
+create table bronze.data4(
+cid nvarchar(50),
+cntry nvarchar(50)
+);
+go
+
+---------------------------------------
+
+if object_id('bronze.data5','U') is not null
+drop table bronze.data5;
+go
+
+create table bronze.data5(
+cid nvarchar(50),
+bdate date,
+gen nvarchar(50)
+);
+go
+
+---------------------------------------------
+
+if object_id('bronze.data6','U') is not null
+drop table bronze.data6;
+
+create table bronze.data6(
+id nvarchar(50),
+cat nvarchar(50),
+subcat nvarchar(50),
+maintenance nvarchar(50)
+);
+go
+
 
 select * from data1;
 
