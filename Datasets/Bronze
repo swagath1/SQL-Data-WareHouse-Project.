@@ -1,15 +1,3 @@
-/*
-======================================================================
-Stored Procedure
-======================================================================
-Purpose:
-This Stored Procedure loads data into schema from external csv files.
-It performs operations:
---Truncates the table before loading data
---Uses 'bulk insert' command to load huge data of csv files to tables
-*/
-=======================================================================
-
 create schema data;
 
 if object_id('data1','U') is not null
